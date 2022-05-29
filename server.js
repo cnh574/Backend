@@ -5,6 +5,7 @@ const express = require("express");
 // const methodOverride  = require('method-override');
 const mongoose = require("mongoose");
 const app = express();
+const Beach = require("./models/beach.js");
 const cors = require("cors");
 const db = mongoose.connection;
 require("dotenv").config();
@@ -52,6 +53,13 @@ app.use(cors());
 //localhost:3000
 app.get("/", (req, res) => {
   res.send("Hello World!");
+});
+
+// Post Route
+app.post("/", (req, res) => {
+  Beach.create(req.body, (err, createdBeach) => {
+    res.json(createdBeach);
+  });
 });
 
 //___________________
