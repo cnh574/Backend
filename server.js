@@ -5,6 +5,8 @@ const express = require("express");
 // const methodOverride  = require('method-override');
 const mongoose = require("mongoose");
 const app = express();
+const Beach = require("./models/beach.js");
+const cors = require("cors");
 const db = mongoose.connection;
 require("dotenv").config();
 //___________________
@@ -41,7 +43,7 @@ app.use(express.static("public"));
 // populates req.body with parsed info from forms - if no data from forms will return an empty object {}
 app.use(express.urlencoded({ extended: false })); // extended: false - does not allow nested objects in query strings
 app.use(express.json()); // returns middleware that only parses JSON - may or may not need it depending on your project
-
+app.use(cors());
 //use method override
 // app.use(methodOverride('_method'));// allow POST, PUT and DELETE from a form
 
@@ -51,6 +53,13 @@ app.use(express.json()); // returns middleware that only parses JSON - may or ma
 //localhost:3000
 app.get("/", (req, res) => {
   res.json("Not Hello World!");
+});
+
+// Post Route
+app.post("/", (req, res) => {
+  Beach.create(req.body, (err, createdBeach) => {
+    res.json(createdBeach);
+  });
 });
 
 //___________________
