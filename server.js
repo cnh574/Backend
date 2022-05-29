@@ -52,7 +52,7 @@ app.use(cors());
 //___________________
 //localhost:3000
 app.get("/", (req, res) => {
-  res.json("heloooooooo!");
+  res.json("WOW!");
 });
 
 // Post Route
