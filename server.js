@@ -52,14 +52,7 @@ app.use(cors());
 //___________________
 //localhost:3000
 app.get("/", (req, res) => {
-  res.json("Hello World!");
-});
-
-// Post Route
-app.post("/", (req, res) => {
-  Beach.create(req.body, (err, createdBeach) => {
-    res.json(createdBeach);
-  });
+  res.send("Not Hello World!");
 });
 
 //___________________
