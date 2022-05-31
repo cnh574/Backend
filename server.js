@@ -52,7 +52,9 @@ app.use(cors());
 //___________________
 //localhost:3000
 app.get("/", (req, res) => {
-  res.json("POW!");
+  Beach.find({}, (err, foundBeach) => {
+    res.json(foundBeach);
+  });
 });
 
 // Post Route
