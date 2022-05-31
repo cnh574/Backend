@@ -12,7 +12,6 @@ module.exports = [
     popularity: 4,
   },
   {
-    _id: "6293a8d1f9d2a37afeee172c",
     name: "fire beach",
     image: "none",
     location: "fire island",
