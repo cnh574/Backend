@@ -6,6 +6,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
 const Beach = require("./models/beach.js");
+const Seed = require("./models/seed.js");
 const cors = require("cors");
 const db = mongoose.connection;
 require("dotenv").config();
@@ -81,6 +82,12 @@ app.put("/:id", (req, res) => {
       res.json(updatedBeach);
     }
   );
+});
+
+app.get("/seed", (req, res) => {
+  Beach.create(seed, (err, createdSeedData) => {
+    console.log("data imported");
+  });
 });
 
 //___________________
