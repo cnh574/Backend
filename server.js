@@ -85,8 +85,9 @@ app.put("/:id", (req, res) => {
 });
 
 app.get("/seed", (req, res) => {
-  Beach.create(seed, (err, createdSeedData) => {
+  Beach.create(Seed, (err, createdSeedData) => {
     console.log("data imported");
+    res.redirect("/");
   });
 });
 
