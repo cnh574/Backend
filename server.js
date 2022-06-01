@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const app = express();
 const Beach = require("./models/beach.js");
 const Seed = require("./models/seed.js");
+const Comment = require("./models/comment.js");
 const cors = require("cors");
 const db = mongoose.connection;
 require("dotenv").config();
@@ -57,11 +58,24 @@ app.get("/", (req, res) => {
     res.json(foundBeach);
   });
 });
+// get comment
+app.get("/", (req, res) => {
+  Comment.find({}, (err, foundComment) => {
+    res.json(foundComment);
+  });
+});
 
 // Post Route
 app.post("/", (req, res) => {
   Beach.create(req.body, (err, createdBeach) => {
     res.json(createdBeach);
+  });
+});
+
+// Post Route for Comment
+app.post("/", (req, res) => {
+  Comment.create(req.body, (err, createdComment) => {
+    res.json(createdComment);
   });
 });
 
