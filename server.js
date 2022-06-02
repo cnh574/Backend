@@ -84,6 +84,12 @@ app.put("/:id", (req, res) => {
   );
 });
 
+app.put("/photo/:id", (req,res)=>{
+  Beach.findByIdAndUpdate(req.params.id , {$push:req.body}, {new:true}, (err,updateData)=>{
+    res.json(updateData)
+  })
+})
+
 app.get("/seed", (req, res) => {
   Beach.create(Seed, (err, createdSeedData) => {
     console.log("data imported");
