@@ -58,6 +58,12 @@ app.get("/", (req, res) => {
   });
 });
 
+app.get('/photo/:id/', (req,res)=>{
+  Beach.find({_id:req.params.id}, (err,foundBeach)=>{
+    res.json(foundBeach)
+  })
+})
+
 // Post Route
 app.post("/", (req, res) => {
   Beach.create(req.body, (err, createdBeach) => {
