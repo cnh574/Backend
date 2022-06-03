@@ -78,6 +78,11 @@ app.delete("/:id", (req, res) => {
   });
 });
 
+app.delete("/photo/:id", (req,res)=>{
+  Beach.updateOne({_id:req.params.id}, {$pull:req.body} , {new:true}, (err,updateData)=>{
+    res.json(updateData)
+  })
+})
 // Edit Route
 app.put("/:id", (req, res) => {
   Beach.findByIdAndUpdate(
