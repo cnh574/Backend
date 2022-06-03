@@ -64,6 +64,11 @@ app.get('/photo/:id/', (req,res)=>{
   })
 })
 
+app.get('/removephoto/:id/', (req,res)=>{
+  Beach.find({_id:req.params.id}, (err,foundBeach)=>{
+    res.json(foundBeach)
+  })
+})
 // Post Route
 app.post("/", (req, res) => {
   Beach.create(req.body, (err, createdBeach) => {
@@ -78,7 +83,7 @@ app.delete("/:id", (req, res) => {
   });
 });
 
-app.delete("/photo/:id", (req,res)=>{
+app.put("/removephoto/:id", (req,res)=>{
   Beach.updateOne({_id:req.params.id}, {$pull:req.body} , {new:true}, (err,updateData)=>{
     res.json(updateData)
   })
