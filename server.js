@@ -69,6 +69,18 @@ app.get('/removephoto/:id/', (req,res)=>{
     res.json(foundBeach)
   })
 })
+
+app.get('/comment/:id', (req,res)=>{
+  Beach.find({_id:req.params.id}, (err,foundBeach)=>{
+    res.json(foundBeach)
+  })
+})
+
+app.get('/removecomment/:id', (req,res)=>{
+  Beach.find({_id:req.params.id}, (err,foundBeach)=>{
+    res.json(foundBeach)
+  })
+})
 // Post Route
 app.post("/", (req, res) => {
   Beach.create(req.body, (err, createdBeach) => {
@@ -88,6 +100,14 @@ app.put("/removephoto/:id", (req,res)=>{
     res.json(updateData)
   })
 })
+
+app.put("/removecomment/:id", (req,res)=>{
+  Beach.updateOne({_id:req.params.id}, {$pull:req.body}, {new:true}, (err, updateData)=>{
+    res.json(updateData)
+    console.log(req.params.id)
+    console.log(req.body)
+  })
+})
 // Edit Route
 app.put("/:id", (req, res) => {
   Beach.findByIdAndUpdate(
@@ -105,6 +125,13 @@ app.put("/photo/:id", (req,res)=>{
     res.json(updateData)
   })
 })
+
+app.put("/comment/:id" , (req,res)=>{
+    Beach.findByIdAndUpdate(req.params.id , {$push:req.body}, {new:true}, (err,updateData)=>{
+      res.json(updateData)
+    })
+})
+
 
 app.get("/seed", (req, res) => {
   Beach.create(Seed, (err, createdSeedData) => {

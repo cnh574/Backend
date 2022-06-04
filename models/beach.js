@@ -6,7 +6,7 @@ const beachSchema = new mongoose.Schema({
   location: String,
   popularity: Number,
   index: Number,
-  comments: String
+  comments: [String]
 });
 
 module.exports = mongoose.model("Beach", beachSchema);
