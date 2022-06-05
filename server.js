@@ -6,6 +6,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
 const Beach = require("./models/beach.js");
+const Seed = require("./models/seed.js");
 const cors = require("cors");
 const db = mongoose.connection;
 require("dotenv").config();
@@ -38,10 +39,10 @@ db.on("disconnected", () => console.log("mongo disconnected"));
 //___________________
 
 //use public folder for static assets
-app.use(express.static("public"));
+// app.use(express.static("public"));
 
 // populates req.body with parsed info from forms - if no data from forms will return an empty object {}
-app.use(express.urlencoded({ extended: false })); // extended: false - does not allow nested objects in query strings
+// app.use(express.urlencoded({ extended: false })); // extended: false - does not allow nested objects in query strings
 app.use(express.json()); // returns middleware that only parses JSON - may or may not need it depending on your project
 app.use(cors());
 //use method override
@@ -51,14 +52,95 @@ app.use(cors());
 // Routes
 //___________________
 //localhost:3000
+//This route pulls our updated object
 app.get("/", (req, res) => {
-  res.json("Hello World!");
+  Beach.find({}, (err, foundBeach) => {
+    res.json(foundBeach);
+  });
 });
-
-// Post Route
+//this route is ussed to pull our updated object
+app.get('/photo/:id/', (req,res)=>{
+  Beach.find({_id:req.params.id}, (err,foundBeach)=>{
+    res.json(foundBeach)
+  })
+})
+//this route is ussed to pull our updated object
+app.get('/removephoto/:id/', (req,res)=>{
+  Beach.find({_id:req.params.id}, (err,foundBeach)=>{
+    res.json(foundBeach)
+  })
+})
+//this route is ussed to pull our updated object
+app.get('/comment/:id', (req,res)=>{
+  Beach.find({_id:req.params.id}, (err,foundBeach)=>{
+    res.json(foundBeach)
+  })
+})
+//this route is ussed to pull our updated object
+app.get('/removecomment/:id', (req,res)=>{
+  Beach.find({_id:req.params.id}, (err,foundBeach)=>{
+    res.json(foundBeach)
+  })
+})
+// Post Route for cresting beaches
 app.post("/", (req, res) => {
   Beach.create(req.body, (err, createdBeach) => {
     res.json(createdBeach);
+  });
+});
+
+// Delete Route for deleting beaches
+app.delete("/:id", (req, res) => {
+  Beach.findByIdAndRemove(req.params.id, (err, deletedBeach) => {
+    res.json(deletedBeach);
+  });
+});
+
+// this route allows a photo to be removed
+app.put("/removephoto/:id", (req,res)=>{
+  Beach.updateOne({_id:req.params.id}, {$pull:req.body} , {new:true}, (err,updateData)=>{
+    res.json(updateData)
+  })
+})
+
+//this route allows a comment to be removed
+app.put("/removecomment/:id", (req,res)=>{
+  Beach.updateOne({_id:req.params.id}, {$pull:req.body}, {new:true}, (err, updateData)=>{
+    res.json(updateData)
+    console.log(req.params.id)
+    console.log(req.body)
+  })
+})
+// Edit Route for updating a beach
+app.put("/:id", (req, res) => {
+  Beach.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { new: true },
+    (err, updatedBeach) => {
+      res.json(updatedBeach);
+    }
+  );
+});
+
+//this route allows for photos to be added to our object
+app.put("/photo/:id", (req,res)=>{
+  Beach.findByIdAndUpdate(req.params.id , {$push:req.body}, {new:true}, (err,updateData)=>{
+    res.json(updateData)
+  })
+})
+//this route allows for comments to be added to our object
+app.put("/comment/:id" , (req,res)=>{
+    Beach.findByIdAndUpdate(req.params.id , {$push:req.body}, {new:true}, (err,updateData)=>{
+      res.json(updateData)
+    })
+})
+
+//this is a seed routre for testing
+app.get("/seed", (req, res) => {
+  Beach.create(Seed, (err, createdSeedData) => {
+    console.log("data imported");
+    res.redirect("/");
   });
 });
 
