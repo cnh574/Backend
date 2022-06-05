@@ -52,55 +52,58 @@ app.use(cors());
 // Routes
 //___________________
 //localhost:3000
+//This route pulls our updated object
 app.get("/", (req, res) => {
   Beach.find({}, (err, foundBeach) => {
     res.json(foundBeach);
   });
 });
-
+//this route is ussed to pull our updated object
 app.get('/photo/:id/', (req,res)=>{
   Beach.find({_id:req.params.id}, (err,foundBeach)=>{
     res.json(foundBeach)
   })
 })
-
+//this route is ussed to pull our updated object
 app.get('/removephoto/:id/', (req,res)=>{
   Beach.find({_id:req.params.id}, (err,foundBeach)=>{
     res.json(foundBeach)
   })
 })
-
+//this route is ussed to pull our updated object
 app.get('/comment/:id', (req,res)=>{
   Beach.find({_id:req.params.id}, (err,foundBeach)=>{
     res.json(foundBeach)
   })
 })
-
+//this route is ussed to pull our updated object
 app.get('/removecomment/:id', (req,res)=>{
   Beach.find({_id:req.params.id}, (err,foundBeach)=>{
     res.json(foundBeach)
   })
 })
-// Post Route
+// Post Route for cresting beaches
 app.post("/", (req, res) => {
   Beach.create(req.body, (err, createdBeach) => {
     res.json(createdBeach);
   });
 });
 
-// Delete Route
+// Delete Route for deleting beaches
 app.delete("/:id", (req, res) => {
   Beach.findByIdAndRemove(req.params.id, (err, deletedBeach) => {
     res.json(deletedBeach);
   });
 });
 
+// this route allows a photo to be removed
 app.put("/removephoto/:id", (req,res)=>{
   Beach.updateOne({_id:req.params.id}, {$pull:req.body} , {new:true}, (err,updateData)=>{
     res.json(updateData)
   })
 })
 
+//this route allows a comment to be removed
 app.put("/removecomment/:id", (req,res)=>{
   Beach.updateOne({_id:req.params.id}, {$pull:req.body}, {new:true}, (err, updateData)=>{
     res.json(updateData)
@@ -108,7 +111,7 @@ app.put("/removecomment/:id", (req,res)=>{
     console.log(req.body)
   })
 })
-// Edit Route
+// Edit Route for updating a beach
 app.put("/:id", (req, res) => {
   Beach.findByIdAndUpdate(
     req.params.id,
@@ -120,19 +123,20 @@ app.put("/:id", (req, res) => {
   );
 });
 
+//this route allows for photos to be added to our object
 app.put("/photo/:id", (req,res)=>{
   Beach.findByIdAndUpdate(req.params.id , {$push:req.body}, {new:true}, (err,updateData)=>{
     res.json(updateData)
   })
 })
-
+//this route allows for comments to be added to our object
 app.put("/comment/:id" , (req,res)=>{
     Beach.findByIdAndUpdate(req.params.id , {$push:req.body}, {new:true}, (err,updateData)=>{
       res.json(updateData)
     })
 })
 
-
+//this is a seed routre for testing
 app.get("/seed", (req, res) => {
   Beach.create(Seed, (err, createdSeedData) => {
     console.log("data imported");
